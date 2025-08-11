@@ -15,9 +15,10 @@ var skipTexts = map[string]bool{
 }
 
 type Chapter struct {
-	Text string
-	Prev *string
-	Next *string
+	Title string
+	Text  string
+	Prev  *string
+	Next  *string
 }
 
 func GetNovel(url *string) Chapter {
@@ -33,21 +34,23 @@ func GetNovel(url *string) Chapter {
 	}
 
 	var sb strings.Builder
-	parseAndAppend(doc, "#chr-content h4", &sb, nil)
-	parseAndAppend(doc, "#chr-content p", &sb, skipTexts)
-
+	parseChapter(doc, "#chr-content p", &sb, skipTexts)
+	title := doc.Find(".chr-title .chr-text").Text()
 	link_next := doc.Find("#next_chap").AttrOr("href", "")
 	link_prev := doc.Find("#prev_chap").AttrOr("href", "")
 
+	title = strings.TrimSpace(title)
+
 	return Chapter{
-		Text: strings.TrimSpace(sb.String()),
-		Next: &link_next,
-		Prev: &link_prev,
+		Title: title,
+		Text:  strings.TrimSpace(sb.String()),
+		Next:  &link_next,
+		Prev:  &link_prev,
 	}
 
 }
 
-func parseAndAppend(doc *goquery.Document, selector string, sb *strings.Builder, skipTexts map[string]bool) {
+func parseChapter(doc *goquery.Document, selector string, sb *strings.Builder, skipTexts map[string]bool) {
 	doc.Find(selector).Each(func(i int, s *goquery.Selection) {
 		text := strings.TrimSpace(s.Text())
 		if skipTexts != nil {

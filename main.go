@@ -8,6 +8,7 @@ import (
 )
 
 type PageData struct {
+	Title   string
 	Chapter template.HTML
 	Prev    *string
 	Next    *string
@@ -20,12 +21,13 @@ func main() {
 			w.Write([]byte("chapter url is required"))
 			return
 		}
-		chapter := scraper.GetNovel(&chapter_url)
 		tmpl, err := template.ParseFiles("read.html")
 		if err != nil {
 			w.Write([]byte("Error parsing template"))
 			return
 		}
+
+		chapter := scraper.GetNovel(&chapter_url)
 
 		next_local_url := r.URL.Host + "/read?chapter=" + *chapter.Next
 		prev_local_url := r.URL.Host + "/read?chapter=" + *chapter.Prev
@@ -38,6 +40,7 @@ func main() {
 		}
 
 		data := PageData{
+			Title:   chapter.Title,
 			Chapter: template.HTML(chapter.Text),
 			Next:    &next_local_url,
 			Prev:    &prev_local_url,
