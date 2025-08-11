@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>read</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css/normalize.css" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura-dark.css" type="text/css" media="screen and (prefers-color-scheme: dark)">
+
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+        <style>
+        #chapter_buttons a[href=""]{
+            display: none;
+        }
+        </style>
+</head>
+
+<body>
+    <div id="chapter_buttons" style="height:2px;">
+        <a style="float: left" href="{{.Prev}}">Prev</a>
+        <a style="float: right" href="{{.Next}}">Next</a>
+    </div>
+    <div>
+    {{.Chapter}}
+    </div>
+    <div style="height:30px; padding-bottom: 10px;">
+    {{ if .Prev }}
+        <a style="float: left" href="{{.Prev}}">Prev</a>
+    {{ end }}
+    {{ if .Next }}
+        <a style="float: right" href="{{.Next}}">Next</a>
+    {{ end }}
+    </div>
+</body>
+
+</html>

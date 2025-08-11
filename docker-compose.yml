@@ -1,0 +1,13 @@
+services:
+  lfl:
+    container_name: lfl
+    build: .
+    restart: unless-stopped
+    ports:
+      - "7070:8080"
+    networks:
+      - reverse-proxy_default
+
+networks:
+  reverse-proxy_default:
+    external: true
